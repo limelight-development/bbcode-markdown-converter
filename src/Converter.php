@@ -155,28 +155,21 @@ class Converter {
 			$md = preg_quote($md);
 			$this->text = preg_replace("/^{$md}(?:\s*)(.*?)$/m", "[{$bb}]$1[/{$bb}]", $this->text);
 		}
-//
-//		foreach (static::$bbPrefixes as $bb => $md){
-//			$open = preg_quote("[$bb]");
-//			$close = preg_quote("[/$bb]");
-//			$close = str_replace('/', '\\/', $close);
-//
-//			$this->text = preg_replace("/^{$open}(.*?){$close}/m", "{$md} $1", $this->text);
-//			$this->text = preg_replace("/{$open}(.*?){$close}/", "\n{$md} $1", $this->text);
-//		}
-//		foreach (static::$bbAttributeTags as $key => $data){
-//			$this->text = preg_replace_callback($data['regex'], function($match) use ($data){
-//				$attribs = [];
-//				foreach ($data['attributes'] as $key => $attribute){
-//					$attribs["{{$key}}"] = empty($match[$attribute['value']]) ?
-//						(isset($attribute['default']) ?
-//							(is_numeric($attribute['default']) ? $match[$attribute['default']] : $attribute['default']) :
-//							''
-//						) : $match[$attribute['value']];
-//				}
-//				return strtr($data['template'], $attribs);
-//			}, $this->text);
-//		}
+
+		// TODO: Add attributed tags support.
+		//		foreach (static::$bbAttributeTags as $key => $data){
+		//			$this->text = preg_replace_callback($data['regex'], function($match) use ($data){
+		//				$attribs = [];
+		//				foreach ($data['attributes'] as $key => $attribute){
+		//					$attribs["{{$key}}"] = empty($match[$attribute['value']]) ?
+		//						(isset($attribute['default']) ?
+		//							(is_numeric($attribute['default']) ? $match[$attribute['default']] : $attribute['default']) :
+		//							''
+		//						) : $match[$attribute['value']];
+		//				}
+		//				return strtr($data['template'], $attribs);
+		//			}, $this->text);
+		//		}
 
 		return $this;
 	}
