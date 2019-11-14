@@ -9,6 +9,11 @@ namespace Limelight\Converter;
  */
 class Converter {
 	private $text = '';
+
+	/**
+	 * Converter constructor.
+	 * @param string|null $text Optional text to set during the construction.
+	 */
 	public function __construct(string $text = null){
 		if (!is_null($text)){$this->text = $text;}
 	}
