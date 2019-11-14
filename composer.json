@@ -1,0 +1,21 @@
+{
+	"name": "limelight/bbcode-markdown-converter",
+	"description": "A simple converter for switching between BBCode and Markdown.",
+	"homepage": "https://limelightgaming.info",
+	"type": "library",
+	"minimum-stability": "stable",
+	"license": "MIT",
+	"support": {
+		"source": "https://github.com/limelight-development/bbcode-markdown-converter",
+		"wiki": "https://github.com/limelight-development/bbcode-markdown-converter/wiki",
+		"issues": "https://github.com/limelight-development/bbcode-markdown-converter/issues"
+	},
+	"authors": [
+		{
+			"name": "John Internet",
+			"homepage": "https://doctor-internet.dev",
+			"role": "Developer"
+		}
+	],
+	"require": {}
+}
