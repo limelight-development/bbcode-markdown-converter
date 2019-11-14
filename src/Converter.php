@@ -62,8 +62,9 @@ class Converter {
 	/** Sets the internal text store.
 	 * @param string $text
 	 */
-	public function setText(string $text): void{
+	public function setText(string $text): self {
 		$this->text = $text;
+		return $this;
 	}
 
 	/** Gets the internal string representation.
@@ -76,7 +77,7 @@ class Converter {
 	/**
 	 * Converts the internal store from BBCode to Markdown.
 	 */
-	function bbToMarkdown(){
+	function bbToMarkdown(): self {
 		// Start off by escaping codes which happen to be in the text already.
 		foreach (static::$bbTags as $md){
 			$esc = join('', array_map(function($char){return "\\{$char}";}, str_split($md)));
@@ -117,5 +118,7 @@ class Converter {
 				return strtr($data['template'], $attribs);
 			}, $this->text);
 		}
+
+		return $this;
 	}
 }
