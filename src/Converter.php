@@ -28,16 +28,17 @@ class Converter {
 		's' => '~~',
 	];
 
-	/** List of "simple" bbTags and their replacements (which act as prefixes.
+	/** List of "simple" bbTags and their replacements (which act as prefixes).
+	 * When there are multiple prefixes which use the same character, they must be listed longest first.
 	 * @var array
 	 */
 	public static $bbPrefixes = [
-		'h1' => '#',
-		'h2' => '##',
-		'h3' => '###',
-		'h4' => '####',
-		'h5' => '#####',
 		'h6' => '######',
+		'h5' => '#####',
+		'h4' => '####',
+		'h3' => '###',
+		'h2' => '##',
+		'h1' => '#',
 	];
 
 	/** List of bbTags with attributes and their replacements.
