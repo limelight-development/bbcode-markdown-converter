@@ -152,7 +152,7 @@ class Converter {
 		}
 		foreach ($prefixes as $md => $bb){
 			$md = preg_quote($md);
-			$this->text = preg_replace("/^{$md}(?:\s*)(.*?)$}/", "[{$bb}]$1[/{$bb}]", $this->text);
+			$this->text = preg_replace("/^{$md}(?:\s*)(.*?)$/m", "[{$bb}]$1[/{$bb}]", $this->text);
 		}
 //
 //		foreach (static::$bbPrefixes as $bb => $md){
