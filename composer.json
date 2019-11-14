@@ -17,5 +17,10 @@
 			"role": "Developer"
 		}
 	],
-	"require": {}
+	"require": {},
+	"autoload": {
+		"psr-4": {
+			"Limelight//Converter//": "src/"
+		}
+	}
 }
