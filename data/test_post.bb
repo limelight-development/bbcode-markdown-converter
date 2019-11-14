@@ -18,3 +18,14 @@ This way we get rid of (more like suppress) an OP weapon in favor of the taser, 
 [b]Vote you fuckin' nerds before I use my abusive powers to suck Doc Internet's dick and become overlord of LL[/b]
 
 [i]this is gonna be in italics[/i]
+
+[i]this is in [b]italics[/b] but has *stars inside it*[/i]
+[b]bold is ran first [i]oops[/i][/b]
+
+# why you put hashes at the start idk.
+
+[h1]this is a header tho[/h1]
+
+this is a header [h1]in the middle of a line[/h1]
+[url]https://google.com[/url]
+[url=https://limelightgaming.net]limelight[/url]
