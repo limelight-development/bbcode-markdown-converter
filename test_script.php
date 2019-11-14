@@ -10,3 +10,10 @@ file_put_contents(
 		->bbToMarkdown()
 		->getText()
 );
+
+file_put_contents(
+	__DIR__ . '/data/test_md.bb',
+	(new Converter(file_get_contents(__DIR__ . '/data/test_md.md')))
+		->markdownToBB()
+		->getText()
+);
