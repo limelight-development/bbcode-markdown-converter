@@ -109,7 +109,7 @@ class Converter {
 			$this->text = preg_replace_callback($data['regex'], function($match) use ($data){
 				$attribs = [];
 				foreach ($data['attributes'] as $key => $attribute){
-						$attribs["{{$key}}"] = empty($match[$attribute['value']]) ?
+					$attribs["{{$key}}"] = empty($match[$attribute['value']]) ?
 						(isset($attribute['default']) ?
 							(is_numeric($attribute['default']) ? $match[$attribute['default']] : $attribute['default']) :
 							''
