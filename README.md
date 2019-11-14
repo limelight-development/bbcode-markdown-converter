@@ -15,6 +15,8 @@ composer require limelight/bbcode-markdown-converter
 Simple as that.
 
 ## Example Use
+
+Using the library is pretty easy. First up, converting from BBCode to Markdown.
 ```php
 use \Limelight\Converter\Converter;
 
@@ -22,8 +24,20 @@ require __DIR__ . '/vendor/autoload.php';
 
 $bbCode = file_get_contents(__DIR__ . '/data/test_post.bb'); // Pull the test post.
 
-$conv = new Converter(); // You can set the text in the constructor too.
-$conv->setText($bbCode);
+$conv = new Converter($bbCode)
 $conv->bbToMarkdown();
+echo $conv->getText();
+```
+
+Easy, right? And the other way around.
+```php
+use \Limelight\Converter\Converter;
+
+require __DIR__ . '/vendor/autoload.php';
+
+$mdText = file_get_contents(__DIR__ . '/data/test_md.md'); // Pull the test post.
+
+$conv = new Converter($mdText)
+$conv->markdownToBB();
 echo $conv->getText();
 ```
