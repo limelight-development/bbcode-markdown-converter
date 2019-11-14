@@ -20,7 +20,7 @@
 	"require": {},
 	"autoload": {
 		"psr-4": {
-			"Limelight//Converter//": "src/"
+			"Limelight\\Converter\\": "src/"
 		}
 	}
 }
