@@ -74,7 +74,7 @@ class Converter {
 	/**
 	 * Converts the internal store from BBCode to Markdown.
 	 */
-	function BBToMarkdown(){
+	function bbToMarkdown(){
 		// Start off by escaping codes which happen to be in the text already.
 		foreach (static::$bbTags as $md){
 			$esc = join('', array_map(function($char){return "\\{$char}";}, str_split($md)));

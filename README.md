@@ -24,6 +24,6 @@ $bbCode = file_get_contents(__DIR__ . '/data/test_post.bb'); // Pull the test po
 
 $conv = new Converter(); // You can set the text in the constructor too.
 $conv->setText($bbCode);
-$conv->BBToMarkdown();
+$conv->bbToMarkdown();
 echo $conv->getText();
 ```
