@@ -127,9 +127,6 @@ class Converter {
 			}, $this->text);
 		}
 
-		echo $this->text;
-		die();
-
 		return $this;
 	}
 
