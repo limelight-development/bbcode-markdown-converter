@@ -46,7 +46,7 @@ class Converter {
 	 */
 	public static $bbAttributeTags = [
 		'url' => [
-			'regex' => '/\[url(?:=([^\]]+?))?\]([^\[]*?)\[\/url\]/',
+			'regex' => '/(?<![^\\\\]\\\\)\[url(?:=([^\]]+?))?\]([^\[]*?)(?<![^\\\\]\\\\)\[\/url\]/',
 			'template' => '[{mask}]({url})',
 			'attributes' => [
 				'url' => [
@@ -81,14 +81,18 @@ class Converter {
 	 */
 	function bbToMarkdown(): self {
 		// Start off by escaping codes which happen to be in the text already.
+		// Don't double escape though.
 		foreach (static::$bbTags as $md){
 			$esc = join('', array_map(function($char){return "\\{$char}";}, str_split($md)));
-			$this->text = str_replace($md, $esc, $this->text);
+			$md = "/(?<![^\\\\]\\\\)" . preg_quote($md) . '/';
+
+			$this->text = preg_replace($md, $esc, $this->text);
 		}
+
 		foreach (static::$bbPrefixes as $md){
 			$esc = join('', array_map(function($char){return "\\{$char}";}, str_split($md)));
 			$md = preg_quote($md);
-			$this->text = preg_replace("/^(\s*){$md}/", "$1{$esc}", $this->text);
+			$this->text = preg_replace("/^(\s*)(?<![^\\\\]\\\\){$md}/", "$1{$esc}", $this->text);
 		}
 
 		// Then replace ones which are there now.
@@ -97,16 +101,18 @@ class Converter {
 			$close = preg_quote("[/$bb]");
 			$close = str_replace('/', '\\/', $close);
 
-			$this->text = preg_replace("/{$open}(.*?){$close}/", "{$md}$1{$md}", $this->text);
+			$this->text = preg_replace("/(?<![^\\\\]\\\\){$open}(.*?)(?<![^\\\\]\\\\){$close}/", "{$md}$1{$md}", $this->text);
 		}
+
 		foreach (static::$bbPrefixes as $bb => $md){
 			$open = preg_quote("[$bb]");
 			$close = preg_quote("[/$bb]");
 			$close = str_replace('/', '\\/', $close);
 
-			$this->text = preg_replace("/^{$open}(.*?){$close}/m", "{$md} $1", $this->text);
-			$this->text = preg_replace("/{$open}(.*?){$close}/", "\n{$md} $1", $this->text);
+			$this->text = preg_replace("/^(?<![^\\\\]\\\\){$open}(.*?)(?<![^\\\\]\\\\){$close}/m", "{$md} $1", $this->text);
+			$this->text = preg_replace("/(?<![^\\\\]\\\\){$open}(.*?)(?<![^\\\\]\\\\){$close}/", "\n{$md} $1", $this->text);
 		}
+
 		foreach (static::$bbAttributeTags as $key => $data){
 			$this->text = preg_replace_callback($data['regex'], function($match) use ($data){
 				$attribs = [];
