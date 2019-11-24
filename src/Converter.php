@@ -62,6 +62,7 @@ class Converter {
 
 	/** Sets the internal text store.
 	 * @param string $text
+	 * @return Converter
 	 */
 	public function setText(string $text): self {
 		$this->text = $text;
