@@ -46,7 +46,7 @@ class Converter {
 	 */
 	public static $bbAttributeTags = [
 		'url' => [
-			'regex' => '/\[url(?:=([^\]]+?))?\]([^\[]*?)\[\/url\]/',
+			'regex' => '/(?<![^\\\\]\\\\)\[url(?:=([^\]]+?))?\]([^\[]*?)(?<![^\\\\]\\\\)\[\/url\]/',
 			'template' => '[{mask}]({url})',
 			'attributes' => [
 				'url' => [
@@ -60,8 +60,28 @@ class Converter {
 		],
 	];
 
+	/** List of markdown tags with attributes and their replacements.
+	 * @var array
+	 */
+	public static $mdAttributeTags = [
+		'url' => [
+			'regex' => '/(?<![^\\\\]\\\\)\[([^\]]+?)\]\(([^\)]*?)\)/',
+			'template' => '[url={url}]{mask}[/url]',
+			'attributes' => [
+				'url' => [
+					'value' => 2,
+					'default' => 1
+				],
+				'mask' => [
+					'value' => 1
+				]
+			]
+		],
+	];
+
 	/** Sets the internal text store.
 	 * @param string $text
+	 * @return Converter
 	 */
 	public function setText(string $text): self {
 		$this->text = $text;
@@ -80,14 +100,19 @@ class Converter {
 	 */
 	function bbToMarkdown(): self {
 		// Start off by escaping codes which happen to be in the text already.
+		// Don't double escape though.
 		foreach (static::$bbTags as $md){
 			$esc = join('', array_map(function($char){return "\\{$char}";}, str_split($md)));
-			$this->text = str_replace($md, $esc, $this->text);
+			$md = "/(?<![^\\\\]\\\\)" . preg_quote($md) . '/';
+
+			$this->text = preg_replace($md, $esc, $this->text);
 		}
+
 		foreach (static::$bbPrefixes as $md){
 			$esc = join('', array_map(function($char){return "\\{$char}";}, str_split($md)));
-			$md = preg_quote($md);
-			$this->text = preg_replace("/^(\s*){$md}/", "$1{$esc}", $this->text);
+			$md = '(\s*)(?<![^\\\\]\\\\)' . preg_quote($md);
+
+			$this->text = preg_replace("/^{$md}/m", "$1{$esc}", $this->text);
 		}
 
 		// Then replace ones which are there now.
@@ -96,16 +121,18 @@ class Converter {
 			$close = preg_quote("[/$bb]");
 			$close = str_replace('/', '\\/', $close);
 
-			$this->text = preg_replace("/{$open}(.*?){$close}/", "{$md}$1{$md}", $this->text);
+			$this->text = preg_replace("/(?<![^\\\\]\\\\){$open}(.*?)(?<![^\\\\]\\\\){$close}/", "{$md}$1{$md}", $this->text);
 		}
+
 		foreach (static::$bbPrefixes as $bb => $md){
 			$open = preg_quote("[$bb]");
 			$close = preg_quote("[/$bb]");
 			$close = str_replace('/', '\\/', $close);
 
-			$this->text = preg_replace("/^{$open}(.*?){$close}/m", "{$md} $1", $this->text);
-			$this->text = preg_replace("/{$open}(.*?){$close}/", "\n{$md} $1", $this->text);
+			$this->text = preg_replace("/^(?<![^\\\\]\\\\){$open}(.*?)(?<![^\\\\]\\\\){$close}/m", "{$md} $1", $this->text);
+			$this->text = preg_replace("/(?<![^\\\\]\\\\){$open}(.*?)(?<![^\\\\]\\\\){$close}/", "\n{$md} $1", $this->text);
 		}
+
 		foreach (static::$bbAttributeTags as $key => $data){
 			$this->text = preg_replace_callback($data['regex'], function($match) use ($data){
 				$attribs = [];
@@ -130,11 +157,11 @@ class Converter {
 		// Start off by escaping codes which happen to be in the text already.
 		$tags = array_flip(static::$bbTags);
 		foreach ($tags as $bb){
-			$open = "[{$bb}]";
-			$this->text = str_replace($open, "\\{$open}", $this->text);
+			$open = preg_quote("[{$bb}]");
+			$this->text = preg_replace("/(?<![^\\\\]\\\\){$open}/", "\\{$open}", $this->text);
 
-			$close = "[/{$bb}]";
-			$this->text = str_replace($close, "\\{$close}", $this->text);
+			$close = preg_quote("[/{$bb}]", '/');
+			$this->text = preg_replace("/(?<![^\\\\]\\\\){$close}/", "\\{$close}", $this->text);
 		}
 
 		$prefixes = array_flip(static::$bbPrefixes);
@@ -156,20 +183,19 @@ class Converter {
 			$this->text = preg_replace("/^{$md}(?:\s*)(.*?)$/m", "[{$bb}]$1[/{$bb}]", $this->text);
 		}
 
-		// TODO: Add attributed tags support.
-		//		foreach (static::$bbAttributeTags as $key => $data){
-		//			$this->text = preg_replace_callback($data['regex'], function($match) use ($data){
-		//				$attribs = [];
-		//				foreach ($data['attributes'] as $key => $attribute){
-		//					$attribs["{{$key}}"] = empty($match[$attribute['value']]) ?
-		//						(isset($attribute['default']) ?
-		//							(is_numeric($attribute['default']) ? $match[$attribute['default']] : $attribute['default']) :
-		//							''
-		//						) : $match[$attribute['value']];
-		//				}
-		//				return strtr($data['template'], $attribs);
-		//			}, $this->text);
-		//		}
+		foreach (static::$mdAttributeTags as $key => $data){
+			$this->text = preg_replace_callback($data['regex'], function($match) use ($data){
+				$attribs = [];
+				foreach ($data['attributes'] as $key => $attribute){
+					$attribs["{{$key}}"] = empty($match[$attribute['value']]) ?
+						(isset($attribute['default']) ?
+							(is_numeric($attribute['default']) ? $match[$attribute['default']] : $attribute['default']) :
+							''
+						) : $match[$attribute['value']];
+				}
+				return strtr($data['template'], $attribs);
+			}, $this->text);
+		}
 
 		return $this;
 	}

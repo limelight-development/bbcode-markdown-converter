@@ -29,3 +29,8 @@ This way we get rid of (more like suppress) an OP weapon in favor of the taser, 
 this is a header [h1]in the middle of a line[/h1]
 [url]https://google.com[/url]
 [url=https://limelightgaming.net]limelight[/url]
+\[h1]escaped[/h1]
+[h2]escaped\[h2] header tags[/h2]
+\[url]escaped url[/url]
+
+# this is an escaped header.

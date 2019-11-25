@@ -8,8 +8,9 @@
 
 [i]this is italics with [b]bold[/b] inside[/i]
 
-[https://google.com](https://google.com)
-[limelight](https://limelightgaming.net)
+[url=https://google.com]https://google.com[/url]
+[url=https://limelightgaming.net]limelight[/url]
+[url=https://google.com]https://google.com[/url]
 
 [h1]this is a header[/h1]
 
