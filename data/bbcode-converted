@@ -19,10 +19,10 @@ This way we get rid of (more like suppress) an OP weapon in favor of the taser, 
 
 *this is gonna be in italics*
 
-*this is in **italics** but \*has\* stars inside it*
+*this is in **italics** but has \*stars inside it\**
 **bold is ran first *oops***
 
-# why you put hashes at the start idk.
+\# why you put hashes at the start idk.
 
 # this is a header tho
 
@@ -30,3 +30,8 @@ this is a header
 # in the middle of a line
 [https://google.com](https://google.com)
 [limelight](https://limelightgaming.net)
+\[h1]escaped[/h1]
+## escaped\[h2] header tags
+\[url]escaped url[/url]
+
+\# this is an escaped header.

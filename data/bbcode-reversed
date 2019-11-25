@@ -21,11 +21,16 @@ This way we get rid of (more like suppress) an OP weapon in favor of the taser, 
 
 [i]this is in [b]italics[/b] but has \[/i]stars inside it\[b][/b]bold is ran first [i]oops[/i][i][/i]
 
-[h1]why you put hashes at the start idk.[/h1]
+\# why you put hashes at the start idk.
 
 [h1]this is a header tho[/h1]
 
 this is a header 
 [h1]in the middle of a line[/h1]
-[https://google.com](https://google.com)
-[limelight](https://limelightgaming.net)
+[url=https://google.com]https://google.com[/url]
+[url=https://limelightgaming.net]limelight[/url]
+\\[h1]escaped\[/h1]
+[h2]escaped\\[h2] header tags[/h2]
+\[url]escaped url[/url]
+
+\# this is an escaped header.
