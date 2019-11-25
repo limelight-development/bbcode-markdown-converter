@@ -91,8 +91,9 @@ class Converter {
 
 		foreach (static::$bbPrefixes as $md){
 			$esc = join('', array_map(function($char){return "\\{$char}";}, str_split($md)));
-			$md = preg_quote($md);
-			$this->text = preg_replace("/^(\s*)(?<![^\\\\]\\\\){$md}/", "$1{$esc}", $this->text);
+			$md = '(\s*)(?<![^\\\\]\\\\)' . preg_quote($md);
+
+			$this->text = preg_replace("/^{$md}/m", "$1{$esc}", $this->text);
 		}
 
 		// Then replace ones which are there now.
