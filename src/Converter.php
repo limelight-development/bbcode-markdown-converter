@@ -60,6 +60,25 @@ class Converter {
 		],
 	];
 
+	/** List of markdown tags with attributes and their replacements.
+	 * @var array
+	 */
+	public static $mdAttributeTags = [
+		'url' => [
+			'regex' => '/(?<![^\\\\]\\\\)\[([^\]]+?)\]\(([^\)]*?)\)/',
+			'template' => '[url={url}]{mask}[/url]',
+			'attributes' => [
+				'url' => [
+					'value' => 2,
+					'default' => 1
+				],
+				'mask' => [
+					'value' => 1
+				]
+			]
+		],
+	];
+
 	/** Sets the internal text store.
 	 * @param string $text
 	 * @return Converter
