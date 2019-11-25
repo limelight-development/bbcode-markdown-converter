@@ -157,11 +157,11 @@ class Converter {
 		// Start off by escaping codes which happen to be in the text already.
 		$tags = array_flip(static::$bbTags);
 		foreach ($tags as $bb){
-			$open = "[{$bb}]";
-			$this->text = str_replace($open, "\\{$open}", $this->text);
+			$open = preg_quote("[{$bb}]");
+			$this->text = preg_replace("/(?<![^\\\\]\\\\){$open}/", "\\{$open}", $this->text);
 
-			$close = "[/{$bb}]";
-			$this->text = str_replace($close, "\\{$close}", $this->text);
+			$close = preg_quote("[/{$bb}]", '/');
+			$this->text = preg_replace("/(?<![^\\\\]\\\\){$close}/", "\\{$close}", $this->text);
 		}
 
 		$prefixes = array_flip(static::$bbPrefixes);
