@@ -58,6 +58,38 @@ class Converter {
 				]
 			]
 		],
+		'font' => [
+			'regex' => '/(?<![^\\\\]\\\\)\[font(?:=([^\]]+?))?\]/',
+			'template' => ''
+		],
+		'font-end' => [
+			'regex' => '/[\/url\]/',
+			'template' => '',
+		],
+		'size' => [
+			'regex' => '/(?<![^\\\\]\\\\)\[size(?:=([^\]]+?))?\]/',
+			'template' => ''
+		],
+		'size-end' => [
+			'regex' => '/[\/size\]/',
+			'template' => '',
+		],
+		'align' => [
+			'regex' => '/(?<![^\\\\]\\\\)\[align(?:=([^\]]+?))?\]/',
+			'template' => ''
+		],
+		'align-end' => [
+			'regex' => '/[\/align\]/',
+			'template' => '',
+		],
+		'colour' => [
+			'regex' => '/(?<![^\\\\]\\\\)\[color(?:=([^\]]+?))?\]/',
+			'template' => ''
+		],
+		'colour-end' => [
+			'regex' => '/[\/color\]/',
+			'template' => '',
+		],
 	];
 
 	/** List of markdown tags with attributes and their replacements.
